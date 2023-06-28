@@ -2,6 +2,16 @@ require 'sinatra'
 require 'graphql'
 require 'json'
 require 'apollo-federation'
+require 'webrick'
+require 'webrick/https'
+
+# Configure SSL options
+ssl_options = {
+  SSLEnable: true,
+  SSLCertificate: './ssl/certificate.crt',
+  SSLPrivateKey: './ssl/private_key.key',
+  SSLCertName: [['CN', 'localhost']],
+}
 
 # Define your GraphQL schema
 class ProductType < GraphQL::Schema::Object
@@ -57,5 +67,7 @@ class MyApp < Sinatra::Base
   end
 end
 
+puts MySchema.to_json
 # Run the Sinatra app
 MyApp.run!
+
