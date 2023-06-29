@@ -44,13 +44,14 @@ end
 
 # Define a simple Sinatra app to handle the GraphQL requests
 class MyApp < Sinatra::Base
-  get '/graphql' do
-    p request
+  before do
+    content_type 'application/json'
   end
 
   post '/graphql' do
     request_payload = JSON.parse(request.body.read)
     result = MySchema.execute(request_payload['query'], variables: request_payload['variables'])
+    status 200
     p result.to_json
   end
 end
@@ -58,6 +59,3 @@ end
 puts "*"*20
 puts MySchema.federation_sdl
 puts "*"*20
-# Run the Sinatra app
-MyApp.run!
-

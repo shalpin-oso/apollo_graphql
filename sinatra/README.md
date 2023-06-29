@@ -5,6 +5,11 @@ gem install solargraph
 gem install bundler bundle
 gem install webrick
 gem install json
+gem install rack
+gem install rack-graphiql
+gem install puma
+
+
 
 # curl search api 
 
@@ -30,3 +35,8 @@ openssl req -new -x509 -key private_key.key -out certificate.crt -days 365
 mkdir ssl
 mv private_key.key certificate.crt ssl/
 
+# run
+
+```
+rackup -q ./config/config.ru -s puma -p 4567
+```
