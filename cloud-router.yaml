@@ -1,0 +1,12 @@
+cors:
+  origins: []
+headers:
+  subgraphs:
+    sean-halpin-studious-space-telegram-pq9w549pq9f7rp-4567:
+      request:
+        - propagate:
+            matching: ".*"
+include_subgraph_errors:
+  all: true # Propagate errors from all subraphs
+supergraph:
+  introspection: true
