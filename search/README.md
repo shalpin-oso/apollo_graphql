@@ -1,5 +1,6 @@
 # apollo_graphql
 
+```
 gem install sinatra graphql apollo-federation
 gem install solargraph
 gem install bundler bundle
@@ -8,8 +9,23 @@ gem install json
 gem install rack
 gem install rack-graphiql
 gem install puma
+```
 
+# install rover
 
+```
+curl -sSL https://rover.apollo.dev/nix/latest | sh
+```
+
+# rover check & publish
+
+```
+rover graph check --schema ./search.schema sean-halpins-team-2-tncpb@main
+
+rover subgraph check --name search-api --schema ./search.schema sean-ha
+lpins-team-2-tncpb@main
+
+```
 
 # curl search api 
 

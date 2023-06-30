@@ -5,11 +5,30 @@ require 'apollo-federation'
 require 'webrick'
 
 # Define your GraphQL schema
-class ProductType < GraphQL::Schema::Object
+class BaseArgument < GraphQL::Schema::Argument
+  include ApolloFederation::Argument
+end
+
+class BaseField < GraphQL::Schema::Field
+  include ApolloFederation::Field
+
+  argument_class BaseArgument
+end
+
+class BaseObject < GraphQL::Schema::Object
   include ApolloFederation::Object
 
-  field :id, ID, null: false
-  field :name, String, null: false
+  field_class BaseField
+end
+#
+class ProductType < BaseObject
+  include ApolloFederation::Object
+  extend_type
+
+  key fields: :id
+  
+  field :id, String, null: false, external: true
+  # field :name, String, null: false
 end
 
 class ProductSearchInput < GraphQL::Schema::InputObject
@@ -18,7 +37,7 @@ class ProductSearchInput < GraphQL::Schema::InputObject
   argument :query, String, required: true
 end
 
-class QueryType < GraphQL::Schema::Object
+class QueryType < BaseObject
   include ApolloFederation::Object
 
   field :products, [ProductType], null: false do
@@ -28,8 +47,8 @@ class QueryType < GraphQL::Schema::Object
   def products(input:)
     # Simulated logic to return a list of products based on the input
     [
-      { id: 1, name: "Mug 1" },
-      { id: 2, name: "Mug 2" }
+      { id: 1},
+      { id: 2}
     ]
   end
 end
@@ -57,5 +76,7 @@ class MyApp < Sinatra::Base
 end
 
 puts "*"*20
-puts MySchema.federation_sdl
+schema = MySchema.federation_sdl
+puts schema
+File.open('search.schema', 'w') { |file| file.write(schema) }
 puts "*"*20
