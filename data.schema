@@ -1,0 +1,7 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.3", import: ["@inaccessible", "@tag"])
+
+type Product @federation__key(fields: "id") {
+  id: String!
+  name: String!
+}

@@ -20,13 +20,13 @@ curl -sSL https://rover.apollo.dev/nix/latest | sh
 # rover check & publish
 
 ```
-rover graph check --schema ./search.schema sean-halpins-team-2-tncpb@main
+rover subgraph check --name search-api --schema ./search.schema sean-halpins-team-2-tncpb@main
+rover subgraph publish --name search-api --schema ./search.schema sean-halpins-team-2-tncpb@main
+```
 
-rover subgraph check --name search-api --schema ./search.schema sean-ha
-lpins-team-2-tncpb@main
-
-rover subgraph publish --name search-api --schema ./search.schema sean-ha
-lpins-team-2-tncpb@main
+```
+rover subgraph check --name data-api --schema ./data.schema sean-halpins-team-2-tncpb@main
+rover subgraph publish --name data-api --schema ./data.schema sean-halpins-team-2-tncpb@main
 ```
 
 # curl search svc 
@@ -56,6 +56,6 @@ mv private_key.key certificate.crt ssl/
 # run
 
 ```
-rackup -q ./search/config/config.ru -s puma -p 4567
-rackup -q ./data-service/config/config.ru -s puma -p 7654
+rackup -q ./search-svc/config/config.ru -s puma -p 4567
+rackup -q ./data-svc/config/config.ru -s puma -p 7654
 ```
