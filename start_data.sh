@@ -1,0 +1,1 @@
+rackup -q ./data-svc/config/config.ru -s puma -p 7654

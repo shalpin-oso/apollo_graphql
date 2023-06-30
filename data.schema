@@ -1,7 +1,22 @@
 extend schema
   @link(url: "https://specs.apollo.dev/federation/v2.3", import: ["@inaccessible", "@tag"])
 
+type Campaign {
+  id: String!
+  name: String!
+  products: [Product!] @federation__external
+  searchCriteria: ProductSearchOutput!
+}
+
 type Product @federation__key(fields: "id") {
   id: String!
   name: String!
+}
+
+type ProductSearchOutput {
+  query: String!
+}
+
+type Query {
+  campaigns: [Campaign!]!
 }

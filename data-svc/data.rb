@@ -28,12 +28,41 @@ class ProductType < BaseObject
 
   key fields: :id
   
-  field :id, String, null: false, external: false
+  field :id, String, null: false
   field :name, String, null: false
 
   def self.resolve_reference(ref, _ctx)
     id = ref[:id]
-    { id: id, name: "Mug #{id}"}
+    { id: id, name: "Mug number #{id}"}
+  end
+end
+
+class ProductSearchOutput < BaseObject
+  include ApolloFederation::Object
+
+  field :query, String, null:false
+end
+
+class CampaignType < BaseObject
+  include ApolloFederation::Object
+
+  field :id, String, null: false
+  field :name, String, null: false
+  field :search_criteria, ProductSearchOutput, null: false
+  field :products, [ProductType], external: true
+end
+
+class QueryType < BaseObject
+  include ApolloFederation::Object
+
+  field :campaigns, [CampaignType], null: false
+
+  def campaigns
+    # Simulated logic to return a list of campaigns
+    [
+      { id: 1, name: "Microsoft Campaign", search_criteria: '{\"input\":{\"query\":\"mug\"}}'},
+      { id: 2, name: "Google Campaign", search_criteria: '{\"input\":{\"query\":\"mug\"}}'}
+    ]
   end
 end
 
@@ -42,6 +71,7 @@ class MySchema < GraphQL::Schema
   federation version: '2.0'
   use ApolloFederation::Tracing
   orphan_types ProductType
+  query QueryType
 end
 
 # Define a simple Sinatra app to handle the GraphQL requests

@@ -28,7 +28,6 @@ class ProductType < BaseObject
   key fields: :id
   
   field :id, String, null: false, external: true
-  # field :name, String, null: false
 end
 
 class ProductSearchInput < GraphQL::Schema::InputObject
