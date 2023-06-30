@@ -41,6 +41,7 @@ class ProductSearchOutput < BaseObject
   include ApolloFederation::Object
 
   field :query, String, null:false
+  field :products, [ProductType], null: false
 end
 
 class CampaignType < BaseObject
@@ -49,7 +50,6 @@ class CampaignType < BaseObject
   field :id, String, null: false
   field :name, String, null: false
   field :search_criteria, ProductSearchOutput, null: false
-  field :products, [ProductType], external: true
 end
 
 class QueryType < BaseObject

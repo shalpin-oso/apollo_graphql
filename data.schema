@@ -4,7 +4,6 @@ extend schema
 type Campaign {
   id: String!
   name: String!
-  products: [Product!] @federation__external
   searchCriteria: ProductSearchOutput!
 }
 
@@ -14,6 +13,7 @@ type Product @federation__key(fields: "id") {
 }
 
 type ProductSearchOutput {
+  products: [Product!]!
   query: String!
 }
 
