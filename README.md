@@ -25,9 +25,11 @@ rover graph check --schema ./search.schema sean-halpins-team-2-tncpb@main
 rover subgraph check --name search-api --schema ./search.schema sean-ha
 lpins-team-2-tncpb@main
 
+rover subgraph publish --name search-api --schema ./search.schema sean-ha
+lpins-team-2-tncpb@main
 ```
 
-# curl search api 
+# curl search svc 
 
 ```
 curl -X POST \
@@ -54,5 +56,6 @@ mv private_key.key certificate.crt ssl/
 # run
 
 ```
-rackup -q ./config/config.ru -s puma -p 4567
+rackup -q ./search/config/config.ru -s puma -p 4567
+rackup -q ./data-service/config/config.ru -s puma -p 7654
 ```
