@@ -37,11 +37,12 @@ class ProductType < BaseObject
   end
 end
 
-class ProductSearchOutput < BaseObject
+class ProductSearchByCriteriaBlob < BaseObject
   include ApolloFederation::Object
 
-  field :query, String, null:false
-  field :products, [ProductType], null: false
+  key fields: :query
+  field :query, String, null: false, external: false
+  field :products, [ProductType], null: false, external: true
 end
 
 class CampaignType < BaseObject
@@ -49,7 +50,7 @@ class CampaignType < BaseObject
 
   field :id, String, null: false
   field :name, String, null: false
-  field :search_criteria, ProductSearchOutput, null: false
+  field :search_criteria, ProductSearchByCriteriaBlob, null: false
 end
 
 class QueryType < BaseObject
@@ -60,17 +61,18 @@ class QueryType < BaseObject
   def campaigns
     # Simulated logic to return a list of campaigns
     [
-      { id: 1, name: "Microsoft Campaign", search_criteria: '{\"input\":{\"query\":\"mug\"}}'},
-      { id: 2, name: "Google Campaign", search_criteria: '{\"input\":{\"query\":\"mug\"}}'}
+      { id: 1, name: "Microsoft Campaign", search_criteria: {query:'{"input":{"query":"mug"}}'}},
+      { id: 2, name: "Google Campaign", search_criteria: {query:'{"input":{"query":"mug"}}'}}
     ]
   end
 end
 
 class MySchema < GraphQL::Schema
   include ApolloFederation::Schema
-  federation version: '2.0'
+  # federation version: '2.0'
   use ApolloFederation::Tracing
   orphan_types ProductType
+  orphan_types ProductSearchByCriteriaBlob
   query QueryType
 end
 

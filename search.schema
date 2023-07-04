@@ -1,8 +1,10 @@
-extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.3", import: ["@inaccessible", "@tag"])
+type Product @extends @key(fields: "id") {
+  id: String! @external
+}
 
-type Product @federation__extends @federation__key(fields: "id") {
-  id: String! @federation__external
+type ProductSearchByCriteriaBlob @key(fields: "query") {
+  products: [Product!]
+  query: String!
 }
 
 input ProductSearchInput {

@@ -4,6 +4,14 @@ require 'json'
 require 'apollo-federation'
 require 'webrick'
 
+def product_db(start)
+  # Simulated logic to return a list of products based on the input
+  [
+    { id: start + 1},
+    { id: start + 2}
+  ]
+end
+
 # Define your GraphQL schema
 class BaseArgument < GraphQL::Schema::Argument
   include ApolloFederation::Argument
@@ -36,6 +44,23 @@ class ProductSearchInput < GraphQL::Schema::InputObject
   argument :query, String, required: true
 end
 
+class ProductSearchByCriteriaBlob < BaseObject
+  include ApolloFederation::Object
+
+  key fields: :query
+  field :query, String, null: false
+  field :products, [ProductType], null: true
+
+  def self.resolve_reference(ref, _ctx)
+    products = product_db 0
+    result = { 
+      query: "#{ref[:query]}",
+      products: products
+    }
+    p result
+  end
+end
+
 class QueryType < BaseObject
   include ApolloFederation::Object
 
@@ -44,19 +69,15 @@ class QueryType < BaseObject
   end
 
   def products(input:)
-    # Simulated logic to return a list of products based on the input
-    [
-      { id: 1},
-      { id: 2}
-    ]
+    product_db 0
   end
 end
 
 class MySchema < GraphQL::Schema
   include ApolloFederation::Schema
-  federation version: '2.0'
+  # federation version: '2.0'
   use ApolloFederation::Tracing
-
+  orphan_types ProductSearchByCriteriaBlob
   query QueryType
 end
 

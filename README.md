@@ -1,3 +1,106 @@
+# Product Call Graph
+
+## Product Query
+
+```
+query ProductsQuery($input: ProductSearchInput!) {
+  products(input: $input) {
+    id
+    name
+  }
+}
+# variables
+{
+  "input": {
+    "query": "mugs"
+  }
+}
+```
+
+### Product Result 
+
+```
+{
+  "data": {
+    "products": [
+      {
+        "id": "1",
+        "name": "Mug number 1"
+      },
+      {
+        "id": "2",
+        "name": "Mug number 2"
+      }
+    ]
+  }
+}
+```
+
+# Campaign Call Graph 
+
+![call_graph.png](./media/call_graph.png)
+
+## Campaign Query
+
+```
+query CampaignQuery {
+  campaigns {
+    id
+    name
+    searchCriteria {
+      products {
+        id
+        name
+      }
+    }
+  }
+}
+
+```
+
+### Result
+
+```
+{
+  "data": {
+    "campaigns": [
+      {
+        "id": "1",
+        "name": "Microsoft Campaign",
+        "searchCriteria": {
+          "products": [
+            {
+              "id": "1",
+              "name": "Mug number 1"
+            },
+            {
+              "id": "2",
+              "name": "Mug number 2"
+            }
+          ]
+        }
+      },
+      {
+        "id": "2",
+        "name": "Google Campaign",
+        "searchCriteria": {
+          "products": [
+            {
+              "id": "1",
+              "name": "Mug number 1"
+            },
+            {
+              "id": "2",
+              "name": "Mug number 2"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
 # apollo_graphql
 
 ```
