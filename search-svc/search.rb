@@ -52,7 +52,7 @@ class ProductSearchByCriteriaBlob < BaseObject
   field :products, [ProductType], null: true
 
   def self.resolve_reference(ref, _ctx)
-    products = product_db 0
+    products = product_db 10
     result = { 
       query: "#{ref[:query]}",
       products: products
