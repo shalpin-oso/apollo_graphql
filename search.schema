@@ -1,5 +1,5 @@
 type Product @extends @key(fields: "id") {
-  id: String! @external
+  id: String!
 }
 
 type ProductSearchByCriteriaBlob @key(fields: "query") {
