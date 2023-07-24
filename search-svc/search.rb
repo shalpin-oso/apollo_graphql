@@ -3,6 +3,7 @@ require 'graphql'
 require 'json'
 require 'apollo-federation'
 require 'webrick'
+require 'byebug'
 
 def product_db(start)
   # Simulated logic to return a list of products based on the input
@@ -56,18 +57,12 @@ end
 
 class QueryType < BaseObject
   include ApolloFederation::Object
+end
 
-  # field :product_search_query, resolver: ProductSearchQuery, connection: false
-  field :product_search_query, [ProductType], null: false do
-    argument :query, ProductSearchInput, required: true
-  end
+class PageInput < GraphQL::Schema::InputObject
+  include ApolloFederation::InputObject
 
-  # Implement the resolver for the productSearchQuery query
-  def product_search_query(query:)
-    # In a real scenario, you would use the criteria to search for products
-    # For this example, we'll just return all products for simplicity
-    product_db 0
-  end
+  argument :page, String, required: true
 end
 
 class ProductSearchByCriteriaBlob < BaseObject
@@ -75,12 +70,16 @@ class ProductSearchByCriteriaBlob < BaseObject
 
   key fields: :query
   field :query, String, null: false, external: false
-  field :products, [ProductType], null: false
+  field :products, [ProductType], null: false do
+    argument :page, PageInput, required: true
+  end
 
-  def products
+  def products(page)
     p 'ProductSearchByCriteriaBlob::products'
+    # byebug
     p object
-    p product_db 0
+    p page
+    p product_db page[:page][:page].to_i
   end
 end
 

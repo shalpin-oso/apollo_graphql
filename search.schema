@@ -1,16 +1,12 @@
+input PageInput {
+  page: String!
+}
+
 type Product @extends @key(fields: "id") {
   id: String!
 }
 
 type ProductSearchByCriteriaBlob @key(fields: "query") {
-  products: [Product!]!
+  products(page: PageInput!): [Product!]!
   query: String!
-}
-
-input ProductSearchInput {
-  query: String!
-}
-
-type Query {
-  productSearchQuery(query: ProductSearchInput!): [Product!]!
 }
