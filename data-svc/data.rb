@@ -42,7 +42,13 @@ class ProductSearchByCriteriaBlob < BaseObject
 
   key fields: :query
   field :query, String, null: false, external: false
-  field :products, [ProductType], null: false, external: true
+  field :products, [ProductType], null: false, provides: { fields: :query }, external: true
+
+  def products
+    # This resolver function should only return the criteria field
+    # The actual products will be fetched from the search_subgraph
+    p { __typename: 'ProductSearchInput', query: object.query }
+  end
 end
 
 class CampaignType < BaseObject
@@ -71,8 +77,8 @@ class MySchema < GraphQL::Schema
   include ApolloFederation::Schema
   # federation version: '2.0'
   use ApolloFederation::Tracing
-  orphan_types ProductType
-  orphan_types ProductSearchByCriteriaBlob
+  # orphan_types ProductType
+  # orphan_types ProductSearchByCriteriaBlob
   query QueryType
 end
 

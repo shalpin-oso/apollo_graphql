@@ -3,7 +3,7 @@ type Product @extends @key(fields: "id") {
 }
 
 type ProductSearchByCriteriaBlob @key(fields: "query") {
-  products: [Product!]
+  products: [Product!]!
   query: String!
 }
 
@@ -12,5 +12,5 @@ input ProductSearchInput {
 }
 
 type Query {
-  products(input: ProductSearchInput!): [Product!]!
+  productSearchQuery(query: ProductSearchInput!): [Product!]!
 }

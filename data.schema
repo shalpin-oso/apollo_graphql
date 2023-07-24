@@ -10,7 +10,7 @@ type Product @key(fields: "id") {
 }
 
 type ProductSearchByCriteriaBlob @key(fields: "query") {
-  products: [Product!]! @external
+  products: [Product!]! @external @provides(fields: "query")
   query: String!
 }
 

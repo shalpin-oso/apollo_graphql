@@ -44,32 +44,43 @@ class ProductSearchInput < GraphQL::Schema::InputObject
   argument :query, String, required: true
 end
 
-class ProductSearchByCriteriaBlob < BaseObject
-  include ApolloFederation::Object
+class ProductSearchQuery < GraphQL::Schema::Resolver
+  type [ProductType], null:false
+  argument :criteria, ProductSearchInput, required: true
 
-  key fields: :query
-  field :query, String, null: false
-  field :products, [ProductType], null: true
-
-  def self.resolve_reference(ref, _ctx)
-    products = product_db 10
-    result = { 
-      query: "#{ref[:query]}",
-      products: products
-    }
-    p result
+  def resolve(args)
+   p args
+   p product_db 100
   end
-end
+end 
 
 class QueryType < BaseObject
   include ApolloFederation::Object
 
-  field :products, [ProductType], null: false do
-    argument :input, ProductSearchInput, required: true
+  # field :product_search_query, resolver: ProductSearchQuery, connection: false
+  field :product_search_query, [ProductType], null: false do
+    argument :query, ProductSearchInput, required: true
   end
 
-  def products(input:)
+  # Implement the resolver for the productSearchQuery query
+  def product_search_query(query:)
+    # In a real scenario, you would use the criteria to search for products
+    # For this example, we'll just return all products for simplicity
     product_db 0
+  end
+end
+
+class ProductSearchByCriteriaBlob < BaseObject
+  include ApolloFederation::Object
+
+  key fields: :query
+  field :query, String, null: false, external: false
+  field :products, [ProductType], null: false
+
+  def products
+    p 'ProductSearchByCriteriaBlob::products'
+    p object
+    p product_db 0
   end
 end
 
