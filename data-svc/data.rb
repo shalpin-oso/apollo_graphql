@@ -37,12 +37,12 @@ class ProductType < BaseObject
   end
 end
 
-class ProductSearchByCriteriaBlob < BaseObject
+class SearchQueryAndProducts < BaseObject
   include ApolloFederation::Object
 
   key fields: :query
-  field :query, String, null: false, external: false
-  field :products, [ProductType], null: false, provides: { fields: :query }, external: true
+  field :query, String, null: false
+  field :products, [ProductType], null: false, external: true
 end
 
 class Touch < BaseObject
@@ -50,7 +50,7 @@ class Touch < BaseObject
 
   field :id, String, null: false
   field :name, String, null: false
-  field :search_criteria, ProductSearchByCriteriaBlob, null: false
+  field :search_criteria, SearchQueryAndProducts, null: false
 end
 
 class QueryType < BaseObject

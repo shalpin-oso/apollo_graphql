@@ -36,7 +36,7 @@ class ProductType < BaseObject
 
   key fields: :id
   
-  field :id, String, null: false, external: false
+  field :id, String, null: false
 end
 
 class ProductSearchInput < GraphQL::Schema::InputObject
@@ -65,20 +65,17 @@ class PageInput < GraphQL::Schema::InputObject
   argument :page, String, required: true
 end
 
-class ProductSearchByCriteriaBlob < BaseObject
+class SearchQueryAndProducts < BaseObject
   include ApolloFederation::Object
 
   key fields: :query
-  field :query, String, null: false, external: false
+  field :query, String, null: false, external: true
   field :products, [ProductType], null: false do
     argument :page, PageInput, required: true
   end
 
   def products(page)
-    p 'ProductSearchByCriteriaBlob::products'
-    # byebug
-    p object
-    p page
+    p 'SearchQueryAndProducts::products'
     p product_db page[:page][:page].to_i
   end
 end
@@ -87,7 +84,7 @@ class MySchema < GraphQL::Schema
   include ApolloFederation::Schema
   # federation version: '2.0'
   use ApolloFederation::Tracing
-  orphan_types ProductSearchByCriteriaBlob
+  orphan_types SearchQueryAndProducts
   query QueryType
 end
 

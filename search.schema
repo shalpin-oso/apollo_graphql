@@ -8,5 +8,5 @@ type Product @extends @key(fields: "id") {
 
 type ProductSearchByCriteriaBlob @key(fields: "query") {
   products(page: PageInput!): [Product!]!
-  query: String!
+  query: String! @external
 }
