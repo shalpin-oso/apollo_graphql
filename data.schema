@@ -15,5 +15,5 @@ type SearchQueryAndProducts @key(fields: "query") {
 type Touch {
   id: String!
   name: String!
-  searchCriteria: SearchQueryAndProducts!
+  searchQueryAndProducts: SearchQueryAndProducts!
 }

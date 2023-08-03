@@ -50,7 +50,7 @@ class Touch < BaseObject
 
   field :id, String, null: false
   field :name, String, null: false
-  field :search_criteria, SearchQueryAndProducts, null: false
+  field :search_query_and_products, SearchQueryAndProducts, null: false
 end
 
 class QueryType < BaseObject
@@ -61,8 +61,8 @@ class QueryType < BaseObject
   def touches
     # Simulated logic to return a list of touches
     [
-      { id: 1, name: "Microsoft Campaign", search_criteria: {query:'{"input":{"query":"mug"}}'}},
-      { id: 2, name: "Google Campaign", search_criteria: {query:'{"input":{"query":"mug"}}'}}
+      { id: 1, name: "Microsoft Campaign", search_query_and_products: {query:'{"input":{"query":"mug"}}'}},
+      { id: 2, name: "Google Campaign", search_query_and_products: {query:'{"input":{"query":"mug"}}'}}
     ]
   end
 end
