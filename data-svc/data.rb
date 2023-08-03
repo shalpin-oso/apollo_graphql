@@ -45,7 +45,7 @@ class ProductSearchByCriteriaBlob < BaseObject
   field :products, [ProductType], null: false, provides: { fields: :query }, external: true
 end
 
-class CampaignType < BaseObject
+class Touch < BaseObject
   include ApolloFederation::Object
 
   field :id, String, null: false
@@ -56,10 +56,10 @@ end
 class QueryType < BaseObject
   include ApolloFederation::Object
 
-  field :campaigns, [CampaignType], null: false
+  field :touches, [Touch], null: false
 
-  def campaigns
-    # Simulated logic to return a list of campaigns
+  def touches
+    # Simulated logic to return a list of touches
     [
       { id: 1, name: "Microsoft Campaign", search_criteria: {query:'{"input":{"query":"mug"}}'}},
       { id: 2, name: "Google Campaign", search_criteria: {query:'{"input":{"query":"mug"}}'}}

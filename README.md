@@ -112,6 +112,7 @@ gem install json
 gem install rack
 gem install rack-graphiql
 gem install puma
+gem install byebug
 ```
 
 # install rover

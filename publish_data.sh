@@ -1,1 +1,1 @@
-rover subgraph publish --name data-api --schema ./data.schema sean-halpins-team-2-tncpb@main
+rover subgraph publish --name data-api --schema ./data.schema sean-halpins-team-q7jcu@main

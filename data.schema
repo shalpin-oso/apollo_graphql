@@ -1,9 +1,3 @@
-type Campaign {
-  id: String!
-  name: String!
-  searchCriteria: ProductSearchByCriteriaBlob!
-}
-
 type Product @key(fields: "id") {
   id: String!
   name: String!
@@ -15,5 +9,11 @@ type ProductSearchByCriteriaBlob @key(fields: "query") {
 }
 
 type Query {
-  campaigns: [Campaign!]!
+  touches: [Touch!]!
+}
+
+type Touch {
+  id: String!
+  name: String!
+  searchCriteria: ProductSearchByCriteriaBlob!
 }
