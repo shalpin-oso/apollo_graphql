@@ -32,10 +32,8 @@ end
 #
 class ProductType < BaseObject
   include ApolloFederation::Object
-  extend_type
 
   key fields: :id
-  
   field :id, String, null: false
 end
 
@@ -43,20 +41,6 @@ class ProductSearchInput < GraphQL::Schema::InputObject
   include ApolloFederation::InputObject
 
   argument :query, String, required: true
-end
-
-class ProductSearchQuery < GraphQL::Schema::Resolver
-  type [ProductType], null:false
-  argument :criteria, ProductSearchInput, required: true
-
-  def resolve(args)
-   p args
-   p product_db 100
-  end
-end 
-
-class QueryType < BaseObject
-  include ApolloFederation::Object
 end
 
 class PageInput < GraphQL::Schema::InputObject
@@ -85,7 +69,6 @@ class MySchema < GraphQL::Schema
   # federation version: '2.0'
   use ApolloFederation::Tracing
   orphan_types SearchQueryAndProducts
-  query QueryType
 end
 
 # Define a simple Sinatra app to handle the GraphQL requests

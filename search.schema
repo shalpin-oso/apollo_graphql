@@ -2,7 +2,7 @@ input PageInput {
   page: String!
 }
 
-type Product @extends @key(fields: "id") {
+type Product @key(fields: "id") {
   id: String!
 }
 
