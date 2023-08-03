@@ -6,7 +6,7 @@ type Product @extends @key(fields: "id") {
   id: String!
 }
 
-type ProductSearchByCriteriaBlob @key(fields: "query") {
+type SearchQueryAndProducts @key(fields: "query") {
   products(page: PageInput!): [Product!]!
   query: String! @external
 }
